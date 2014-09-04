@@ -1,7 +1,14 @@
 #!/bin/bash
-for item in `wget -O -  https://location.services.mozilla.com/downloads | grep "MLS-full-cell"` 
+wget -O-  https://location.services.mozilla.com/downloads | grep "MLS-full-cell" > download.tmp 
+while read -r line;
 do
-echo "111 ${item}"
-done 
-# | grep "`date +%Y-%m-%d`"
-
+#echo "111 ${line}"
+LASTLINE=$line
+done <  download.tmp
+LAST_URL=`echo $LASTLINE | awk -F '"' '{print $2}' | awk -F '"' '{print $1}'`
+FILE=`basename $LAST_URL`
+echo $LAST_URL
+echo $FILE
+wget -O $FILE $LAST_URL
+gunzip $FILE
+rm -f download.tmp
