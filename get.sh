@@ -1,4 +1,6 @@
 #!/bin/bash
+set -x
+set +ue
 wget -O-  https://location.services.mozilla.com/downloads | grep "MLS-full-cell" > download.tmp 
 while read -r line;
 do
